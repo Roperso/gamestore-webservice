@@ -51,3 +51,9 @@ $router->group(['middleware' => 'jwt.auth'], function () use ($router) {
     $router->post('/game/{gameId}/reviews', 'ReviewController@store');
     $router->delete('/reviews/{id}', 'ReviewController@destroy');
 });
+
+$router->group(['middleware' => 'jwt.auth'], function () use ($router) {
+    $router->post('/game/{gameId}/purchase', 'TransactionController@purchase');
+    $router->get('/my-transactions', 'TransactionController@myTransactions');
+    $router->get('/transactions', 'TransactionController@allTransactions');
+});
