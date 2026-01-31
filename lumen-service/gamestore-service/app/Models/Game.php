@@ -29,4 +29,10 @@ class Game extends Model
     {
         return $this->hasMany(GameImage::class);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
 }

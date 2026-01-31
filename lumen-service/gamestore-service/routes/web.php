@@ -43,3 +43,11 @@ $router->group(['middleware' => 'jwt.auth'], function () use ($router) {
 
 $router->get('/games/image/{filename}', 'GameImageController@show');
 
+// PUBLIC
+$router->get('/public/game/{gameId}/reviews', 'ReviewController@index');
+
+// LOGIN
+$router->group(['middleware' => 'jwt.auth'], function () use ($router) {
+    $router->post('/game/{gameId}/reviews', 'ReviewController@store');
+    $router->delete('/reviews/{id}', 'ReviewController@destroy');
+});
