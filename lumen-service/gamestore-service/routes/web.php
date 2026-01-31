@@ -31,3 +31,8 @@ $router->group(['middleware' => 'jwt.auth'], function () use ($router) {
 
 $router->get('/public/games', 'PublicGameController@index');
 $router->get('/public/game/{id}', 'PublicGameController@show');
+
+$router->group(['middleware' => 'jwt.auth'], function () use ($router) {
+    $router->get('/categories', 'CategoryController@index');
+    $router->post('/categories', 'CategoryController@store');
+});
