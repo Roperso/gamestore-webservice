@@ -20,3 +20,14 @@ $router->get('/', function () use ($router) {
 $router->post('/auth/register', 'AuthController@register');
 $router->post('/auth/login', 'AuthController@login');
 $router->delete('/auth/logout', ['middleware' => 'jwt.auth', 'uses' => 'AuthController@logout']);
+
+$router->group(['middleware' => 'jwt.auth'], function () use ($router) {
+    $router->get('/games', 'GameController@index');
+    $router->get('/game/{id}', 'GameController@show');
+    $router->post('/games', 'GameController@store');
+    $router->put('/game/{id}', 'GameController@update');
+    $router->delete('/game/{id}', 'GameController@destroy');
+});
+
+$router->get('/public/games', 'PublicGameController@index');
+$router->get('/public/game/{id}', 'PublicGameController@show');
