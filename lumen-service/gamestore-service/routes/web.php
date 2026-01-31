@@ -36,3 +36,10 @@ $router->group(['middleware' => 'jwt.auth'], function () use ($router) {
     $router->get('/categories', 'CategoryController@index');
     $router->post('/categories', 'CategoryController@store');
 });
+
+$router->group(['middleware' => 'jwt.auth'], function () use ($router) {
+    $router->post('/game/{gameId}/image', 'GameImageController@upload');
+});
+
+$router->get('/games/image/{filename}', 'GameImageController@show');
+

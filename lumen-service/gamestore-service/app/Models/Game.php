@@ -1,13 +1,18 @@
 <?php
 
 namespace App\Models;
+use App\Models\GameImage;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Game extends Model
 {
     protected $fillable = [
-        'title', 'description', 'price', 'category_id', 'developer_id'
+        'title',
+        'description',
+        'price',
+        'category_id',
+        'developer_id'
     ];
 
     public function category()
@@ -18,5 +23,10 @@ class Game extends Model
     public function developer()
     {
         return $this->belongsTo(User::class, 'developer_id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(GameImage::class);
     }
 }
