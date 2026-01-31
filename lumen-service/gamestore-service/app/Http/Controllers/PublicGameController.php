@@ -41,4 +41,24 @@ class PublicGameController extends Controller
             'data' => $game
         ], 200);
     }
+
+    public function xml()
+    {
+        $games = Game::with(['category', 'developer'])->get();
+
+        $xml = new \SimpleXMLElement('<games/>');
+
+        foreach ($games as $game) {
+            $gameXml = $xml->addChild('game');
+            $gameXml->addChild('id', $game->id);
+            $gameXml->addChild('title', $game->title);
+            $gameXml->addChild('price', $game->price);
+            $gameXml->addChild('category', $game->category->name);
+            $gameXml->addChild('developer', $game->developer->name);
+        }
+
+        return response($xml->asXML(), 200)
+            ->header('Content-Type', 'application/xml');
+    }
+
 }

@@ -57,3 +57,5 @@ $router->group(['middleware' => 'jwt.auth'], function () use ($router) {
     $router->get('/my-transactions', 'TransactionController@myTransactions');
     $router->get('/transactions', 'TransactionController@allTransactions');
 });
+
+$router->get('/public/games/xml', 'PublicGameController@xml');
