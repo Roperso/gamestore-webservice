@@ -13,15 +13,31 @@ class AuthController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6'
+            'email' => [
+                'required',
+                'email',
+                'unique:users',
+                'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/'
+            ],
+            'password' => 'required|min:6',
+            'role' => 'nullable|in:admin,developer,user'
         ]);
+
+        $role = $request->role ?? 'user';
+
+        if ($role === 'admin') {
+            if (User::where('role', 'admin')->exists()) {
+                return response()->json([
+                    'message' => 'Admin already exists'
+                ], 403);
+            }
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'user'
+            'role' => $role
         ]);
 
         return response()->json([
@@ -29,6 +45,7 @@ class AuthController extends Controller
             'data' => $user
         ], 201);
     }
+
 
     public function login(Request $request)
     {
