@@ -11,7 +11,6 @@ if (!isset($data['data'])) {
     die("Format data tidak sesuai");
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +23,6 @@ if (!isset($data['data'])) {
             color: #c7d5e0;
         }
         .header {
-            background: #171a21;
             padding: 20px;
             border-bottom: 1px solid #2a475e;
         }
@@ -35,32 +33,42 @@ if (!isset($data['data'])) {
         .container {
             padding: 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 20px;
         }
         .card {
             background: #1b2838;
             border-radius: 6px;
-            padding: 15px;
+            overflow: hidden;
             transition: transform 0.2s;
         }
         .card:hover {
             transform: scale(1.03);
         }
+        .cover {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            background: #000;
+        }
+        .content {
+            padding: 12px;
+        }
         .title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             color: #66c0f4;
         }
+        .meta {
+            font-size: 13px;
+            margin-top: 4px;
+            color: #8f98a0;
+        }
         .price {
             margin-top: 10px;
-            font-size: 16px;
+            font-size: 15px;
             color: #a4d007;
-        }
-        .meta {
-            font-size: 14px;
-            margin-top: 5px;
-            color: #8f98a0;
+            font-weight: bold;
         }
         .footer {
             text-align: center;
@@ -78,14 +86,25 @@ if (!isset($data['data'])) {
 </div>
 
 <div class="container">
-    <?php foreach ($data['data'] as $game): ?>
-        <div class="card">
+<?php foreach ($data['data'] as $game): ?>
+    <?php
+        $imageUrl = null;
+        if (!empty($game['images'])) {
+            $imageUrl = "http://localhost:8000/game_images/" . $game['images'][0]['image'];
+        }
+    ?>
+    <div class="card">
+        <?php if ($imageUrl): ?>
+            <img src="<?= $imageUrl ?>" class="cover">
+        <?php endif; ?>
+        <div class="content">
             <div class="title"><?= htmlspecialchars($game['title']) ?></div>
             <div class="meta">Category: <?= htmlspecialchars($game['category']['name']) ?></div>
             <div class="meta">Developer: <?= htmlspecialchars($game['developer']['name']) ?></div>
             <div class="price">Rp <?= number_format($game['price'], 0, ',', '.') ?></div>
         </div>
-    <?php endforeach; ?>
+    </div>
+<?php endforeach; ?>
 </div>
 
 <div class="footer">

@@ -12,7 +12,7 @@ class PublicGameController extends Controller
      */
     public function index()
     {
-        $games = Game::with(['category', 'developer'])
+        $games = Game::with(['category', 'developer', 'images'])
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -28,7 +28,7 @@ class PublicGameController extends Controller
      */
     public function show($id)
     {
-        $game = Game::with(['category', 'developer'])->find($id);
+        $game = Game::with(['category', 'developer', 'images'])->find($id);
 
         if (!$game) {
             return response()->json([
