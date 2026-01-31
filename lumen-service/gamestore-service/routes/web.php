@@ -16,3 +16,7 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->post('/auth/register', 'AuthController@register');
+$router->post('/auth/login', 'AuthController@login');
+$router->delete('/auth/logout', ['middleware' => 'jwt.auth', 'uses' => 'AuthController@logout']);
